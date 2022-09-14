@@ -7,7 +7,7 @@ import asyncio
 
 import pandas as pd
 
-from belling.common import filename_feature, combine_data, get_commit_id, group_by_map
+from belling.common import filename_feature, combine_data, get_commit_id, group_by_map, get_commit_msg
 
 
 def create_total_data_frame(df: pd.DataFrame, task_info, repo_info, repo_path):
@@ -28,8 +28,9 @@ def create_total_data_frame(df: pd.DataFrame, task_info, repo_info, repo_path):
 
 
 def add_git_info(df, repo_path):
-    res = asyncio.run(group_by_map(df, "commit_id", "repo_info", add_commit_id))
-    return res
+    asyncio.run(group_by_map(df, "commit_id", "repo_info", add_commit_id))
+    asyncio.run(group_by_map(df, "commit_msg", "repo_info", add_commit_msg))
+    return df
 
 
 async def get_commit_id_from_row_data(row_data):
@@ -38,6 +39,19 @@ async def get_commit_id_from_row_data(row_data):
     line_num = row_data["line_num"]
     commit_id = await get_commit_id(file_path, repo_path, line_num)
     return commit_id
+
+
+async def get_commit_msg_from_branch(df: pd.DataFrame):
+    commit_id = df.iloc[0]["commit_id"]
+    repo_path = df.iloc[0]["repo_info"]
+    commit_msg = await get_commit_msg(repo_path, commit_id)
+    df["commit_msg"] = commit_msg
+    return df["commit_msg"]
+
+
+async def add_commit_msg(df: pd.DataFrame):
+    await group_by_map(df, "commit_msg", "commit_id", get_commit_msg_from_branch)
+    return df["commit_msg"]
 
 
 async def add_commit_id(df: pd.DataFrame):
