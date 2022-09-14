@@ -43,8 +43,11 @@ async def get_commit_id_from_row_data(row_data):
 
 async def get_commit_msg_from_branch(df: pd.DataFrame):
     commit_id = df.iloc[0]["commit_id"]
-    repo_path = df.iloc[0]["repo_info"]
-    commit_msg = await get_commit_msg(repo_path, commit_id)
+    if commit_id == "":
+        commit_msg = ""
+    else:
+        repo_path = df.iloc[0]["repo_info"]
+        commit_msg = await get_commit_msg(repo_path, commit_id)
     df["commit_msg"] = commit_msg
     return df["commit_msg"]
 

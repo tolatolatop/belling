@@ -17,8 +17,25 @@ class TestCommon(unittest.TestCase):
         data_file = pathlib.Path(".") / "data" / "data.yaml"
         with data_file.open("r") as f:
             data = yaml.unsafe_load(f)
+        data = self.create_data_yaml()
         self.data_frame = pd.DataFrame(data)
         self.repo_info = ["base/new/", "base/d/"]
+
+    def create_data_yaml(self):
+        root_dir = pathlib.Path(".").parent
+        data = []
+        for i in root_dir.glob("**/*"):
+            if i.is_dir():
+                continue
+            tmp = {
+                "filePath": str(i.absolute()),
+                "key": i.parent.name,
+                "line_num": 1,
+                "repo_info": str(i.parent.parent),
+                "id": 1
+            }
+            data.append(tmp)
+        return data
 
     def test_concat(self):
         df = pd.concat([self.data_frame, self.data_frame])
@@ -56,6 +73,7 @@ class TestCommon(unittest.TestCase):
         df["line_num"] = "1"
         res = add_git_info(self.data_frame, "None")
         print(res)
+        res.to_csv("data.csv")
 
 
 if __name__ == '__main__':
