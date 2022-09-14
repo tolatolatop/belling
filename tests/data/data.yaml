@@ -1,15 +1,15 @@
-- filePath: E:\python_project\belling\belling\__init__.py
+- filePath: belling\belling\__init__.py
   key: base
   id: 1
 
-- filePath: E:\python_project\belling\belling\common.py
+- filePath: belling\belling\common.py
   key: base
   id: 1
 
-- filePath: E:\python_project\belling\belling\feature.py
+- filePath: belling\belling\feature.py
   key: std
   id: 2
 
-- filePath: E:\python_project\belling\tests\data\data.yaml
+- filePath: belling\tests\data\data.yaml
   key: now
   id: 1

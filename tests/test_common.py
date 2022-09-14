@@ -19,7 +19,7 @@ class TestCommon(unittest.TestCase):
         repo_info_file = pathlib.Path(".") / "data" / "repo_info.yaml"
         with data_file.open("r") as f:
             data = yaml.unsafe_load(f)
-        data = self.create_data_yaml()
+        # data = self.create_data_yaml()
         self.data_frame = pd.DataFrame(data)
 
         with repo_info_file.open("r") as f:
