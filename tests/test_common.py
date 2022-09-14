@@ -1,3 +1,4 @@
+import asyncio
 import pathlib
 import unittest
 
@@ -6,6 +7,8 @@ import pandas as pd
 from belling import common
 from belling import feature
 import yaml
+
+from belling.feature import add_git_info
 
 
 class TestCommon(unittest.TestCase):
@@ -43,6 +46,16 @@ class TestCommon(unittest.TestCase):
 
         res = common.get_commit_id(file.parent / "nofound.py", file.parent, 8)
         self.assertEqual("", res)
+
+    def test_group_by_map(self):
+        data = asyncio.run(common.group_by_map(self.data_frame, "key", print))
+
+    def test_add_git_info(self):
+        df = self.data_frame
+        df["repo_info"] = r"E:\python_project\belling"
+        df["line_num"] = "1"
+        res = add_git_info(self.data_frame, "None")
+        print(res)
 
 
 if __name__ == '__main__':

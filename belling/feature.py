@@ -3,9 +3,11 @@
 # @Time    : 2022/9/15 2:56
 # @Author  : tolatolatop
 # @File    : feature.py
+import asyncio
+
 import pandas as pd
 
-from belling.common import filename_feature, combine_data
+from belling.common import filename_feature, combine_data, get_commit_id, group_by_map
 
 
 def create_total_data_frame(df: pd.DataFrame, task_info, repo_info, repo_path):
@@ -26,7 +28,24 @@ def create_total_data_frame(df: pd.DataFrame, task_info, repo_info, repo_path):
 
 
 def add_git_info(df, repo_path):
-    pass
+    res = asyncio.run(group_by_map(df, "commit_id", "repo_info", add_commit_id))
+    return res
+
+
+async def get_commit_id_from_row_data(row_data):
+    file_path = row_data["filePath"]
+    repo_path = row_data["repo_info"].replace("&", "")
+    line_num = row_data["line_num"]
+    commit_id = await get_commit_id(file_path, repo_path, line_num)
+    return commit_id
+
+
+async def add_commit_id(df: pd.DataFrame):
+    res = []
+    for i, data in df.iterrows():
+        commit_id = await get_commit_id_from_row_data(data)
+        res.append(commit_id)
+    return res
 
 
 def add_unique_label(df):

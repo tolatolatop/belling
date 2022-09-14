@@ -1,23 +1,15 @@
-- filePath: base/new/a.c
+- filePath: E:\python_project\belling\belling\__init__.py
   key: base
   id: 1
 
-- filePath: base/new/b.c
+- filePath: E:\python_project\belling\belling\common.py
   key: base
   id: 1
 
-- filePath: base/new/c.c
+- filePath: E:\python_project\belling\belling\feature.py
   key: std
   id: 2
 
-- filePath: base/d/a.c
-  key: now
-  id: 1
-
-- filePath: base/d/c.c
-  key: new
-  id: 4
-
-- filePath: base/k/a.c
+- filePath: E:\python_project\belling\tests\data/data.yaml
   key: now
   id: 1
