@@ -1,0 +1,19 @@
+- filePath: base/a.c
+  key: base
+  id: 1
+
+- filePath: base/b.c
+  key: base
+  id: 1
+
+- filePath: base/c.c
+  key: std
+  id: 2
+
+- filePath: d/a.c
+  key: now
+  id: 1
+
+- filePath: d/c.c
+  key: new
+  id: 4
