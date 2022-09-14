@@ -1,19 +1,23 @@
-- filePath: base/a.c
+- filePath: base/new/a.c
   key: base
   id: 1
 
-- filePath: base/b.c
+- filePath: base/new/b.c
   key: base
   id: 1
 
-- filePath: base/c.c
+- filePath: base/new/c.c
   key: std
   id: 2
 
-- filePath: d/a.c
+- filePath: base/d/a.c
   key: now
   id: 1
 
-- filePath: d/c.c
+- filePath: base/d/c.c
   key: new
   id: 4
+
+- filePath: base/k/a.c
+  key: now
+  id: 1
