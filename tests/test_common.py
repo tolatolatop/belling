@@ -8,6 +8,7 @@ from belling import common
 from belling import feature
 import yaml
 
+from belling.common import create_repo_info
 from belling.feature import add_git_info
 
 
@@ -15,11 +16,14 @@ class TestCommon(unittest.TestCase):
 
     def setUp(self) -> None:
         data_file = pathlib.Path(".") / "data" / "data.yaml"
+        repo_info_file = pathlib.Path(".") / "data" / "repo_info.yaml"
         with data_file.open("r") as f:
             data = yaml.unsafe_load(f)
         data = self.create_data_yaml()
         self.data_frame = pd.DataFrame(data)
-        self.repo_info = ["base/new/", "base/d/"]
+
+        with repo_info_file.open("r") as f:
+            self.repo_info = [v["repo_path"] for v in yaml.unsafe_load(f)]
 
     def create_data_yaml(self):
         root_dir = pathlib.Path(".").parent
@@ -74,6 +78,10 @@ class TestCommon(unittest.TestCase):
         res = add_git_info(self.data_frame, "None")
         print(res)
         res.to_csv("data.csv")
+
+    def test_create_repo_info(self):
+        root = pathlib.Path(".").absolute().parent.parent
+        res = create_repo_info(root, pathlib.Path(".") / "data" / "repo_info.yaml")
 
 
 if __name__ == '__main__':

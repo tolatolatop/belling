@@ -4,9 +4,11 @@
 # @Author  : tolatolatop
 # @File    : common.py
 import asyncio
+import pathlib
 import subprocess as sp
 
 import pandas as pd
+import yaml
 
 
 async def shell(cmd, cwd):
@@ -58,3 +60,22 @@ async def group_by_map(df: pd.DataFrame, label, by, func):
     for new_data, sub_df in zip(result, group_df):
         df.loc[sub_df.index, label] = new_data
     return df
+
+
+def get_git_info(root: pathlib.Path):
+    res = {
+        "repo_path": str(root.parent)
+    }
+    return res
+
+
+def find_all_git_repo(root: pathlib.Path):
+    repo_dir_list = (repo_dir for repo_dir in root.glob("**/.git") if repo_dir.is_dir())
+    res = [get_git_info(repo_dir) for repo_dir in repo_dir_list]
+    return res
+
+
+def create_repo_info(root: pathlib.Path, repo_info_file_path):
+    res = find_all_git_repo(root)
+    with repo_info_file_path.open("w") as f:
+        yaml.safe_dump(res, f)
